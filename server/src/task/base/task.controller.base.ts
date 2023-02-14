@@ -21,6 +21,7 @@ import { ApiNestedQuery } from "../../decorators/api-nested-query.decorator";
 import { TaskService } from "../task.service";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
+import { Public } from "../../decorators/public.decorator";
 import { TaskCreateInput } from "./TaskCreateInput";
 import { TaskWhereInput } from "./TaskWhereInput";
 import { TaskWhereUniqueInput } from "./TaskWhereUniqueInput";
@@ -192,11 +193,7 @@ export class TaskControllerBase {
     }
   }
 
-  @nestAccessControl.UseRoles({
-    resource: "Task",
-    action: "delete",
-    possession: "any",
-  })
+  @Public()
   @common.Delete("/:id")
   @swagger.ApiOkResponse({ type: Task })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
