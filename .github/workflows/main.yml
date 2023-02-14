@@ -20,7 +20,7 @@ jobs:
               env:
                   GITHUB_TOKEN: ${{ secrets.TOKEN }}
               run: |
-                  npx all-contributors add ${{ github.event.pull_request.user.login }} code
+                  @all-contributors please add @wiseaidev for code
                   git add README.md
-                  git commit -m "Add @${{ github.event.pull_request.user.login }} as a contributor"
+                  git commit -m "Add @loki as a contributor"
                   git push
