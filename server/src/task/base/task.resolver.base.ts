@@ -19,7 +19,6 @@ import { isRecordNotFoundError } from "../../prisma.util";
 import { MetaQueryPayload } from "../../util/MetaQueryPayload";
 import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
-import { Public } from "../../decorators/public.decorator";
 import { CreateTaskArgs } from "./CreateTaskArgs";
 import { UpdateTaskArgs } from "./UpdateTaskArgs";
 import { DeleteTaskArgs } from "./DeleteTaskArgs";
@@ -135,8 +134,12 @@ export class TaskResolverBase {
     }
   }
 
-  @Public()
   @graphql.Mutation(() => Task)
+  @nestAccessControl.UseRoles({
+    resource: "Task",
+    action: "delete",
+    possession: "any",
+  })
   async deleteTask(@graphql.Args() args: DeleteTaskArgs): Promise<Task | null> {
     try {
       return await this.service.delete(args);
